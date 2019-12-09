@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: book-core
+
+server:
+  port: 8080

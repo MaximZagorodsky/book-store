@@ -1,10 +1,11 @@
-package com.example.bookcore.router;
+package com.example.bookmiddleware.router;
 
-import com.example.bookcore.handler.BookHandler;
+import com.example.bookmiddleware.handler.BookHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.server.reactive.HttpHandler;
+import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
@@ -12,15 +13,14 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @Configuration
 public class BookRouter {
     @Bean
-    public HttpHandler route(BookHandler handler) {
-        return RouterFunctions.toHttpHandler(RouterFunctions.route()
-                .path("/core/book", builder -> builder
+    public RouterFunction<ServerResponse> route(BookHandler handler) {
+        return RouterFunctions.route()
+                .path("/book", builder -> builder
                         .GET("title/{title}", accept(APPLICATION_JSON), handler::getByTitle)
                         .GET("/{id}", accept(APPLICATION_JSON), handler::getById)
                         .GET("", accept(APPLICATION_JSON), handler::listBook)
-                        .PATCH("/book", accept(APPLICATION_JSON), handler::update)
-                        .PATCH("/clear", handler::clearAll)
+                        .PATCH("/book", handler::update)
                         .POST("/book", handler::createBook))
-                .build());
+                .build();
     }
 }

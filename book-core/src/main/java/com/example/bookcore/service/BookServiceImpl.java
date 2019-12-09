@@ -1,7 +1,7 @@
 package com.example.bookcore.service;
 
-import com.example.bookcore.model.Book;
 import com.example.bookcore.repository.BookRepository;
+import com.example.bookmodel.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -11,11 +11,6 @@ import reactor.core.publisher.Mono;
 public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
-
-    @Override
-    public Flux<Book> addAll(Flux<Book> books) {
-        return bookRepository.addAll(books);
-    }
 
     @Override
     public Flux<Book> allBook() {
@@ -28,17 +23,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Mono<Book> create(Mono<Book> book) {
+    public Mono<Void> create(Mono<Book> book) {
         return bookRepository.create(book);
     }
 
     @Override
-    public Mono<Book> update(Mono<Book> book) {
+    public Mono<Void> clearAll() {
+        return bookRepository.clearAll();
+    }
+
+    @Override
+    public Mono<Void> update(Mono<Book> book) {
         return bookRepository.update(book);
     }
 
     @Override
-    public Mono<Book> findById(int id) {
+    public Mono<Book> getById(int id) {
         return bookRepository.findById(id);
     }
 

@@ -1,7 +1,7 @@
 package com.example.bookcore.handler;
 
-import com.example.bookcore.model.Book;
 import com.example.bookcore.service.BookService;
+import com.example.bookmodel.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -14,20 +14,24 @@ import reactor.core.publisher.Mono;
 public class BookHandler {
     private BookService bookService;
 
-    public Mono<ServerResponse> createBook(ServerRequest request) {
-        Mono<Book> book = bookService.create(request.bodyToMono(Book.class));
+    public Mono<ServerResponse> clearAll(ServerRequest request) {
         return ServerResponse
                 .ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(book, Book.class);
+                .build(bookService.clearAll());
+    }
+
+    public Mono<ServerResponse> createBook(ServerRequest request) {
+        Mono<Book> book = request.bodyToMono(Book.class);
+        return ServerResponse
+                .ok()
+                .build(bookService.create(book));
     }
 
     public Mono<ServerResponse> update(ServerRequest request) {
-        Mono<Book> book = bookService.update(request.bodyToMono(Book.class));
+        Mono<Void> book = bookService.update(request.bodyToMono(Book.class));
         return ServerResponse
                 .ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(book, Book.class);
+                .build(book);
     }
 
     public Mono<ServerResponse> getByTitle(ServerRequest request) {
@@ -36,6 +40,14 @@ public class BookHandler {
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(books, Book.class);
+    }
+
+    public Mono<ServerResponse> getById(ServerRequest request) {
+        Mono<Book> book = bookService.getById(Integer.parseInt(request.pathVariable("id")));
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(book, Book.class);
     }
 
     public Mono<ServerResponse> listBook(ServerRequest request) {

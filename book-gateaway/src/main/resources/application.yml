@@ -1,0 +1,26 @@
+server:
+  port: 8762
+
+spring:
+  application:
+    name: book-zuul-server
+
+eureka:
+  fetchRegistry: true
+  serviceUrl:
+    defaultzone: http://localhost:8761/eureka/
+
+zuul:
+  routes:
+    corebook:
+      path: /core/book/**
+      serviceId: book-core
+      stripPrefix: false
+
+    book:
+      path: /book/**
+      serviceId: book-middleware
+      stripPrefix: false
+
+
+
