@@ -1,6 +1,6 @@
 package com.example.bookcore.repository;
 
-import com.example.bookcore.model.Book;
+import com.example.bookmodel.model.Book;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -13,11 +13,11 @@ public interface BookRepository {
 
     Flux<Book> getByTitle(String title);
 
-    Mono<Book> create(Mono<Book> book);
+    Mono<Void> create(Mono<Book> book);
 
-    Mono<Book> update(Mono<Book> book);
+    Mono<Void> update(Mono<Book> book);
 
     Mono<Book> findById(int id);
 
-    void clearAll();
+    Mono<Void> clearAll();
 }

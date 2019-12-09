@@ -1,4 +1,4 @@
-package com.example.bookcore.model;
+package com.example.bookmodel.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
